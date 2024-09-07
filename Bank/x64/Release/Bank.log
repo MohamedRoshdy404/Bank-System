@@ -1,0 +1,8 @@
+﻿  Bank.cpp
+C:\Users\Mohamed\source\repos\Bank\Bank\Bank.cpp(36,30): warning C4267: '=': conversion from 'size_t' to 'short', possible loss of data
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+C:\Users\Mohamed\source\repos\Bank\Bank\Bank.cpp(212): warning C4715: 'DeleteClientByAccountNumber': not all control paths return a value
+  All 387 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Bank.vcxproj -> C:\Users\Mohamed\source\repos\Bank\x64\Release\Bank.exe
