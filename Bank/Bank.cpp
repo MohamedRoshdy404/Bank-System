@@ -7,7 +7,7 @@ using namespace std;
 
 
 const string ClientsFileName = "Clients.txt";
-enum enMenu { ShowClinet = 1, AddedClinet = 2, DeleteClient = 3 };
+enum enMenu { ShowClinet = 1, AddedClinet = 2, DeleteClient = 3  , UpdateClient = 4};
 
 void ScreenMenu();
 
@@ -65,6 +65,25 @@ sClient ReadNewClient()
 	cin >> Client.AccountBalance;
 	return Client;
 }
+
+sClient ChangeClientRecord(string AccountNumber)
+{
+	sClient Client;
+	Client.AccountNumber = AccountNumber;
+
+	cout << "Enter PinCode? ";
+	getline(cin >> ws , Client.PinCode);
+	cout << "Enter Name? ";
+	getline(cin, Client.Name);
+	cout << "Enter Phone? ";
+	getline(cin, Client.Phone);
+	cout << "Enter AccountBalance? ";
+	cin >> Client.AccountBalance;
+	return Client;
+}
+
+
+
 
 void AddDataLineToFile(string FileName, string stDataLine)
 {
@@ -172,8 +191,6 @@ vector <sClient> SaveCleintsDataToFile(string FileName, vector <sClient> vClient
 		{
 			if (C.MarkForDelete == false)
 			{
-				//we only write records that are not marked for delete.
-
 				DataLine = ConvertRecordToLine(C);
 				MyFile << DataLine << endl;
 			}
@@ -210,6 +227,42 @@ bool DeleteClientByAccountNumber(string AccountNumber, vector <sClient>& vClient
 		return false;
 	}
 }
+
+bool UpdateClientByAccountNumber(string AccountNumber, vector <sClient>& vClients)
+{
+	sClient Client;
+	char Answer = 'n';
+	if (FindClientByAccountNumber(AccountNumber, vClients, Client))
+	{
+		PrintClientCard(Client);
+		cout << "\n\nAre you sure you want Update this client? y/n ? ";
+		cin >> Answer;
+		if (Answer == 'y' || Answer == 'Y')
+		{
+			for (sClient &C : vClients)
+			{
+				if (C.AccountNumber == AccountNumber)
+				{
+					C =	ChangeClientRecord(AccountNumber);
+					break;
+				}
+			}
+			SaveCleintsDataToFile(ClientsFileName, vClients);
+
+			cout << "\n\nClient Updated Successfully.";
+			return true;
+		}
+	}
+	else
+	{
+		cout << "\nClient with Account Number (" << AccountNumber << ") is Not Found!";
+		return false;
+	}
+}
+
+
+
+
 string ReadClientAccountNumber()
 {
 	string AccountNumber = "";
@@ -285,6 +338,16 @@ void ScreenDeleteClient()
 	ResetScreenManu();
 }
 
+void ScreenUpdateClient()
+{
+	system("cls");
+	vector <sClient> vClients = LoadCleintsDataFromFile(ClientsFileName);
+	string AccountNumber = ReadClientAccountNumber();
+	UpdateClientByAccountNumber(AccountNumber, vClients);
+	ResetScreenManu();
+}
+
+
 
 // Screennnnnnnnnnnnnnnn
 
@@ -309,6 +372,11 @@ void MyChoice(enMenu ScrrenMenuCho1ice)
 		break;
 	case enMenu::DeleteClient:
 		ScreenDeleteClient();
+		break;
+	case enMenu::UpdateClient :
+		ScreenUpdateClient();
+		break;
+
 	default:
 		break;
 	}
