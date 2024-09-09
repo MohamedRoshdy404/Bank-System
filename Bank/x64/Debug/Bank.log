@@ -1,5 +1,5 @@
 ﻿  Bank.cpp
-C:\Users\Mohamed\source\repos\Bank\Bank\Bank.cpp(36,30): warning C4267: '=': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\Mohamed\source\repos\Bank\Bank\Bank.cpp(229): warning C4715: 'DeleteClientByAccountNumber': not all control paths return a value
-C:\Users\Mohamed\source\repos\Bank\Bank\Bank.cpp(261): warning C4715: 'UpdateClientByAccountNumber': not all control paths return a value
+C:\Users\Mohamed\source\repos\Bank\Bank\Bank.cpp(35,30): warning C4267: '=': conversion from 'size_t' to 'short', possible loss of data
+C:\Users\Mohamed\source\repos\Bank\Bank\Bank.cpp(222): warning C4715: 'DeleteClientByAccountNumber': not all control paths return a value
+C:\Users\Mohamed\source\repos\Bank\Bank\Bank.cpp(254): warning C4715: 'UpdateClientByAccountNumber': not all control paths return a value
   Bank.vcxproj -> C:\Users\Mohamed\source\repos\Bank\x64\Debug\Bank.exe

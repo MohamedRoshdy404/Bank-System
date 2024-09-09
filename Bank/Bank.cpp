@@ -7,7 +7,7 @@ using namespace std;
 
 
 const string ClientsFileName = "Clients.txt";
-enum enMenu { ShowClinet = 1, AddedClinet = 2, DeleteClient = 3  , UpdateClient = 4};
+enum enMenu { ShowClinet = 1, AddedClinet = 2, DeleteClient = 3  , UpdateClient = 4 , FindClient = 5 , Exit};
 
 void ScreenMenu();
 
@@ -31,11 +31,10 @@ vector<string> SplitString(string S1, string Delim)
 {
 	vector<string> vString;
 	short pos = 0;
-	string sWord; // define a string variable
-	// use find() function to get the position of the delimiters
+	string sWord;
 	while ((pos = S1.find(Delim)) != std::string::npos)
 	{
-		sWord = S1.substr(0, pos); // store the word
+		sWord = S1.substr(0, pos);
 		if (sWord != "")
 		{
 			vString.push_back(sWord);
@@ -44,7 +43,7 @@ vector<string> SplitString(string S1, string Delim)
 	}
 	if (S1 != "")
 	{
-		vString.push_back(S1); // it adds last word of the string.
+		vString.push_back(S1);
 	}
 	return vString;
 }
@@ -53,7 +52,6 @@ sClient ReadNewClient()
 {
 	sClient Client;
 	cout << "Enter Account Number? ";
-	// Usage of std::ws will extract allthe whitespace character
 	getline(cin >> ws, Client.AccountNumber);
 	cout << "Enter PinCode? ";
 	getline(cin, Client.PinCode);
@@ -82,9 +80,6 @@ sClient ChangeClientRecord(string AccountNumber)
 	return Client;
 }
 
-
-
-
 void AddDataLineToFile(string FileName, string stDataLine)
 {
 	fstream MyFile;
@@ -96,7 +91,6 @@ void AddDataLineToFile(string FileName, string stDataLine)
 		cout << "\n\nClient Added Successfully.";
 	}
 }
-
 
 sClient ConvertLinetoRecord(string Line, string Seperator = "#//#")
 {
@@ -179,11 +173,10 @@ bool MarkClientForDeleteByAccountNumber(string AccountNumber, vector <sClient>& 
 	return false;
 }
 
-
 vector <sClient> SaveCleintsDataToFile(string FileName, vector <sClient> vClients)
 {
 	fstream MyFile;
-	MyFile.open(FileName, ios::out);//overwrite
+	MyFile.open(FileName, ios::out);
 	string DataLine;
 	if (MyFile.is_open())
 	{
@@ -260,8 +253,22 @@ bool UpdateClientByAccountNumber(string AccountNumber, vector <sClient>& vClient
 	}
 }
 
-
-
+bool ScreenFindClientByAccountNumber(string AccountNumber, vector <sClient>& vClients)
+{
+	sClient Client;
+	char Answer = 'n';
+	if (FindClientByAccountNumber(AccountNumber, vClients, Client))
+	{
+		PrintClientCard(Client);
+		return true;
+		
+	}
+	else
+	{
+		cout << "\nClient with Account Number (" << AccountNumber << ") is Not Found!";
+		return false;
+	}
+}
 
 string ReadClientAccountNumber()
 {
@@ -271,7 +278,6 @@ string ReadClientAccountNumber()
 	return AccountNumber;
 }
 
-
 void PrintClientRecord(sClient Client)
 {
 	cout << "| " << setw(15) << left << Client.AccountNumber;
@@ -280,7 +286,6 @@ void PrintClientRecord(sClient Client)
 	cout << "| " << setw(12) << left << Client.Phone;
 	cout << "| " << setw(12) << left << Client.AccountBalance;
 }
-
 
 void PrintAllClientsData(vector <sClient> vClients)
 {
@@ -306,9 +311,7 @@ void PrintAllClientsData(vector <sClient> vClients)
 	cout << "_________________________________________\n" << endl;
 }
 
-
 // Screennnnnnnnnnnnnnnn
-
 
 void ScreenShowClient()
 {
@@ -318,7 +321,6 @@ void ScreenShowClient()
 	ResetScreenManu();
 }
 
-
 void ScreenAddNewClient()
 {
 	system("cls");
@@ -327,7 +329,6 @@ void ScreenAddNewClient()
 	AddDataLineToFile(ClientsFileName, ConvertRecordToLine(Client));
 	ResetScreenManu();
 }
-
 
 void ScreenDeleteClient()
 {
@@ -347,17 +348,23 @@ void ScreenUpdateClient()
 	ResetScreenManu();
 }
 
+void ScreenFindClient()
+{
+	system("cls");
+	vector <sClient> vClients = LoadCleintsDataFromFile(ClientsFileName);
+	string AccountNumber = ReadClientAccountNumber();
+	ScreenFindClientByAccountNumber(AccountNumber, vClients);
+	ResetScreenManu();
+}
 
+void ExitProgram()
+{
+	 exit(0);
+}
 
 // Screennnnnnnnnnnnnnnn
 
-
-
 // STAAAAAAAAAAAAAAAAAAART
-
-
-
-
 
 void MyChoice(enMenu ScrrenMenuCho1ice)
 {
@@ -376,14 +383,17 @@ void MyChoice(enMenu ScrrenMenuCho1ice)
 	case enMenu::UpdateClient :
 		ScreenUpdateClient();
 		break;
-
+	case enMenu::FindClient :
+		ScreenFindClient();
+		break;
+	case enMenu::Exit :
+		ExitProgram();
+		break;
 	default:
 		break;
 	}
 
 }
-
-
 
 enMenu ScrrenMenuCho1ice()
 {
@@ -413,7 +423,6 @@ void ScreenMenu() {
 int main()
 {
 	ScreenMenu();
-
 	system("pause>0");
 	return 0;
 }
