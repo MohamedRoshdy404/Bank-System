@@ -7,7 +7,7 @@
 using namespace std;
 const string ClientsFileName = "Clients.txt";
 
-enum enMenu { ShowClinet = 1, AddedClinet = 2, DeleteClient = 3, UpdateClient = 4, FindClient = 5, Exit };
+enum enMenu { ShowClient = 1, AddedClient = 2, DeleteClient = 3, UpdateClient = 4, FindClient = 5, Exit };
 
 void StartScreenMenu();
 
@@ -395,10 +395,10 @@ void MyChoice(enMenu ScrrenMenuCho1ice)
 
 	switch (ScrrenMenuCho1ice)
 	{
-	case enMenu::ShowClinet:
+	case enMenu::ShowClient:
 		ScreenShowClient();
 		break;
-	case enMenu::AddedClinet:
+	case enMenu::AddedClient:
 		ScreenAddNewClient();
 		break;
 	case enMenu::DeleteClient:
